@@ -1,25 +1,24 @@
 pipeline {
   agent any
+  tools { maven 'Maven_3' }
 
   stages {
     stage('Checkout') {
-      steps {
-        checkout scm
-      }
+      steps { checkout scm }
     }
 
     stage('Test') {
       steps {
         bat 'mvn -v'
-        bat 'mvn clean test -Dheadless=true'
+        bat 'mvn -Dheadless=true -Dsurefire.suiteXmlFiles=testng.xml test'
       }
     }
   }
 
   post {
     always {
-      junit 'target/surefire-reports/*.xml'
-      archiveArtifacts artifacts: 'target/**', allowEmptyArchive: true
+      junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+      archiveArtifacts artifacts: 'target/surefire-reports/**', allowEmptyArchive: true
     }
   }
 }
