@@ -1,15 +1,28 @@
 pipeline {
   agent any
-  tools { maven 'Maven_3' }
+
+  environment {
+    JAVA_HOME = 'C:\\Users\\OMAR\\scoop\\apps\\temurin17-jdk\\current'
+    PATH = "${JAVA_HOME}\\bin;${env.PATH}"
+  }
+
+  tools {
+    maven 'Maven'   // el nombre exacto que pusiste en Tools
+  }
 
   stages {
-    stage('Checkout') {
-      steps { checkout scm }
+    stage('Env') {
+      steps {
+        bat 'where java'
+        bat 'java -version'
+        bat 'where javac'
+        bat 'javac -version'
+        bat 'mvn -v'
+      }
     }
 
     stage('Test') {
       steps {
-        bat 'mvn -v'
         bat 'mvn -Dheadless=true -Dsurefire.suiteXmlFiles=testng.xml test'
       }
     }
