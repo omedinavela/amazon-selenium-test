@@ -7,7 +7,7 @@ pipeline {
   }
 
   tools {
-    maven 'Maven'   // el nombre exacto que pusiste en Tools
+    maven 'Maven_3'   // el nombre exacto que pusiste en Tools
   }
 
   stages {
